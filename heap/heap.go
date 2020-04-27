@@ -44,14 +44,14 @@ func (h *Heap) Remove() *mi.Node {
 	h.arr[0] = h.arr[h.size-1]
 	h.arr[h.size-1] = nil
 	h.size--
-	h.siftDown()
+	h.siftDown(0)
 	return node
 }
 
 func (h *Heap) Replace(node *mi.Node) *mi.Node {
 	oldNode := h.arr[0]
 	h.arr[0] = node
-	h.siftDown()
+	h.siftDown(0)
 	return oldNode
 
 }
@@ -79,12 +79,11 @@ func (h *Heap) siftUp(selfIndex int) {
 	h.arr[selfIndex] = node
 }
 
-func (h *Heap) siftDown() {
-	node := h.arr[0]
-	selfIndex := 0
+func (h *Heap) siftDown(selfIndex int) {
+	node := h.arr[selfIndex]
 	for {
 		maxIndex := h.maxIndex(selfIndex)
-		if maxIndex < 0 {
+		if maxIndex < 0 || h.arr[maxIndex].Value < node.Value {
 			break
 		}
 		h.arr[selfIndex] = h.arr[maxIndex]
@@ -95,7 +94,7 @@ func (h *Heap) siftDown() {
 
 func (h *Heap) maxIndex(index int) int {
 	left := index<<1 + 1
-	if left > h.size {
+	if left >= h.size {
 		return -1
 	} else if left == h.size-1 {
 		return left
@@ -108,9 +107,34 @@ func (h *Heap) maxIndex(index int) int {
 
 }
 
+func (h *Heap) heapify() {
+	for index := h.size >> 1; index >= 0; index-- {
+		h.siftDown(index)
+	}
+}
+
 func NewHeap() *Heap {
 	return &Heap{
 		size: 0,
 		arr:  make([]*mi.Node, defaultSize),
 	}
+}
+
+func NewHeapSlice(arr []int) *Heap {
+	nodeSlice := make([]*mi.Node, len(arr))
+	count := 0
+	for index, v := range arr {
+		node := &mi.Node{
+			Index: index,
+			Value: v,
+		}
+		nodeSlice[count] = node
+		count++
+	}
+	heap := NewHeap()
+	heap.size = len(nodeSlice)
+	heap.arr = make([]*mi.Node, heap.size)
+	copy(heap.arr, nodeSlice)
+	heap.heapify()
+	return heap
 }

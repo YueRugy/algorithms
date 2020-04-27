@@ -2,12 +2,13 @@ package heap
 
 import (
 	"fmt"
-	"github.com/algorithms/mi"
 	"testing"
+
+	"github.com/algorithms/mi"
 )
 
 func TestHeap_Size(t *testing.T) {
-	var heap *Heap
+	heap := NewHeap()
 	num := heap.Size()
 	if num == 0 {
 		t.Log("success")
@@ -30,29 +31,43 @@ func TestHeap_Add(t *testing.T) {
 	for _, node := range heap.arr {
 		fmt.Print(node.Value, "\t")
 	}
+	t.Log("success")
 }
-	//fmt.Println(heap.arr)
-	//flag := true
-	//for index := 0; index < len(array); index++ {
-	//	if heap.array[index] != array1[index] {
-	//		flag = false
-	//	}
-	//}
-	//if flag {
-	//	t.Log("success")
-	//} else {
-	//	t.Error("failed")
-	//}
 
-//func TestHeap_Remove(t *testing.T) {
-//	array := []int{54, 80, 29, 79, 6, 58, 93, 86, 51, 65, 34, 39, 85, 26, 28, 95}
-//	heap := NewHeap()
-//	for _, v := range array {
-//		heap.Add(v)
+//fmt.Println(heap.arr)
+//flag := true
+//for index := 0; index < len(array); index++ {
+//	if heap.array[index] != array1[index] {
+//		flag = false
 //	}
-//	heap.Remove()
-//	fmt.Println(heap.array)
 //}
+//if flag {
+//	t.Log("success")
+//} else {
+//	t.Error("failed")
+//}
+
+func TestHeap_Remove(t *testing.T) {
+	array := []int{54, 80, 29, 79, 6, 58, 93, 86, 51, 65, 34, 39, 85, 26, 28, 95}
+	heap := NewHeap()
+	for index, v := range array {
+		node := &mi.Node{
+			Index: index,
+			Value: v,
+		}
+		heap.Add(node)
+	}
+	sli := make([]*mi.Node, heap.Size())
+	length := heap.Size()
+	for i := 0; i < length; i++ {
+		sli[i] = heap.Remove()
+	}
+	for _, node := range sli {
+		fmt.Print(node.Value, "\t")
+	}
+	t.Log("success")
+}
+
 //func TestSlice(t *testing.T) {
 //	array := []int{54, 80, 29, 79}
 //	a2 := make([]int, len(array))
@@ -92,3 +107,33 @@ func TestHeap_Add(t *testing.T) {
 //	array = HeapSort(array)
 //	t.Log(array)
 //}
+func TestCopy(t *testing.T) {
+	array := []int{54, 80, 29, 79, 6, 58, 93, 86, 51, 65, 34, 39, 85, 26, 28, 95}
+	array1 := make([]int, len(array))
+	copy(array1, array)
+	fmt.Println(array1)
+}
+
+func TestNewHeapSlice(t *testing.T) {
+	array := []int{54, 80, 29, 79, 6, 58, 93, 86, 51, 65, 34, 39, 85, 26, 28, 95}
+	heap := NewHeapSlice(array)
+	for _, node := range heap.arr {
+		fmt.Print(node.Value, "\t")
+	}
+
+}
+func TestHeap_Remove2(t *testing.T) {
+	array := []int{54, 80, 29, 79, 6, 58, 93, 86, 51, 65, 34, 39, 85, 26, 28, 95}
+	heap := NewHeapSlice(array)
+
+	length := heap.Size()
+	sli:=make([]*mi.Node,length)
+	for i := 0; i < length; i++ {
+		sli[i] = heap.Remove()
+	}
+	for _, node := range sli {
+		fmt.Print(node.Value, "\t")
+	}
+	t.Log("success")
+
+}
