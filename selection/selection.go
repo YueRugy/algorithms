@@ -1,33 +1,31 @@
 package selection
 
-import (
-	"github.com/algorithms/heap"
-)
+import "github.com/algorithms/soft"
 
-func Selection(arr []int) {
-	length := len(arr)
+type Selection struct {
+	*soft.Soft
+}
 
-	for end := length - 1; end > 0; end-- {
-		index := 0
-		for begin := 0; begin <= end; begin++ {
-			if arr[begin] > arr[index] {
-				index = begin
-			}
-		}
-
-		if index != end {
-			arr[index] ^= arr[end]
-			arr[end] ^= arr[index]
-			arr[index] ^= arr[end]
-		}
-
+func NewSelection(arr []int) *Selection {
+	return &Selection{
+		&soft.Soft{
+			Array: arr,
+		},
 	}
 }
 
-func SelectionByHeap(arr []int) {
-	heap := heap.NewHeapSlice(arr)
-	length := len(arr)
-	for index := length - 1; index >= 0; index-- {
-		arr[index] = heap.Remove().Value
+func (s *Selection) Sort() {
+	length := len(s.Array)
+
+	for end := length - 1; end > 0; end-- {
+		maxIndex := end
+		for begin := 0; begin < end; begin++ {
+			if s.Compare(begin, maxIndex) > 0 {
+				maxIndex = begin
+			}
+		}
+		if maxIndex != end {
+			s.Swap(maxIndex, end)
+		}
 	}
 }

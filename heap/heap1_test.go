@@ -2,13 +2,13 @@ package heap
 
 import (
 	"fmt"
-	"testing"
-
 	"github.com/algorithms/mi"
+	"sort"
+	"testing"
 )
 
 func TestHeap_Size(t *testing.T) {
-	heap := NewHeap()
+	heap := NewHeap1()
 	num := heap.Size()
 	if num == 0 {
 		t.Log("success")
@@ -19,7 +19,7 @@ func TestHeap_Size(t *testing.T) {
 func TestHeap_Add(t *testing.T) {
 
 	array := []int{54, 80, 29, 79, 6, 58, 93, 86, 51, 65, 34, 39, 85, 26, 28, 95}
-	heap := NewHeap()
+	heap := NewHeap1()
 	for index, v := range array {
 		node := &mi.Node{
 			Index: index,
@@ -49,7 +49,7 @@ func TestHeap_Add(t *testing.T) {
 
 func TestHeap_Remove(t *testing.T) {
 	array := []int{54, 80, 29, 79, 6, 58, 93, 86, 51, 65, 34, 39, 85, 26, 28, 95}
-	heap := NewHeap()
+	heap := NewHeap1()
 	for index, v := range array {
 		node := &mi.Node{
 			Index: index,
@@ -116,7 +116,7 @@ func TestCopy(t *testing.T) {
 
 func TestNewHeapSlice(t *testing.T) {
 	array := []int{54, 80, 29, 79, 6, 58, 93, 86, 51, 65, 34, 39, 85, 26, 28, 95}
-	heap := NewHeapSlice(array)
+	heap := NewHeap1Slice(array)
 	for _, node := range heap.arr {
 		fmt.Print(node.Value, "\t")
 	}
@@ -124,10 +124,10 @@ func TestNewHeapSlice(t *testing.T) {
 }
 func TestHeap_Remove2(t *testing.T) {
 	array := []int{54, 80, 29, 79, 6, 58, 93, 86, 51, 65, 34, 39, 85, 26, 28, 95}
-	heap := NewHeapSlice(array)
+	heap := NewHeap1Slice(array)
 
 	length := heap.Size()
-	sli:=make([]*mi.Node,length)
+	sli := make([]*mi.Node, length)
 	for i := 0; i < length; i++ {
 		sli[i] = heap.Remove()
 	}
@@ -136,4 +136,24 @@ func TestHeap_Remove2(t *testing.T) {
 	}
 	t.Log("success")
 
+}
+
+func TestNewHeap(t *testing.T) {
+	//95	86	93	80	65	85	29	79	51	6	34	39	58	26	28	54
+	array := []int{54, 80, 29, 79, 6, 58, 93, 86, 51, 65, 34, 39, 85, 26, 28, 95}
+	h := NewHeap(array)
+	fmt.Println(h.Array)
+}
+
+func TestHeap_Sort(t *testing.T) {
+	array := []int{54, 80, 29, 79, 6, 58, 93, 86, 51, 65, 34, 39, 85, 26, 28, 95}
+	h := NewHeap(array)
+	h.Sort()
+
+	if sort.IntsAreSorted(h.Array) {
+		t.Log("success")
+	} else {
+		t.Error("failed")
+	}
+	fmt.Println(h.Array)
 }
