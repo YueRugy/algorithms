@@ -1,14 +1,20 @@
 package main
 
 import (
+	"fmt"
 	"github.com/algorithms/util"
 )
 
 func main() {
-	arr := util.CreateSlice(1000, 10000)
-	arr1 := make([]int, len(arr))
-	copy(arr1, arr)
-	test(arr,arr)
+
+	arr := []int{12, 34, 5, 9, 79, 65, 23, 11}
+	//bubble3(arr)
+	bubble5(arr)
+	fmt.Println(arr)
+	//arr := util.CreateSlice(1000, 10000)
+	//arr1 := make([]int, len(arr))
+	//copy(arr1, arr)
+	//test(arr, arr)
 	//arr:=util.CreateSlice(10,20)
 	//fmt.Println(arr)
 	//bubble1(arr)
@@ -57,4 +63,68 @@ func bubble1(arr []int) {
 			break
 		}
 	}
+}
+
+func bubble3(arr []int) {
+	length := len(arr)
+	for end := length - 1; end > 0; end-- {
+		for begin := 0; begin < end; begin++ {
+			if arr[begin] > arr[begin+1] {
+				arr[begin] ^= arr[begin+1]
+				arr[begin+1] ^= arr[begin]
+				arr[begin] ^= arr[begin+1]
+			}
+		}
+	}
+}
+func bubble4(arr []int) {
+	length := len(arr)
+	for end := length - 1; end > 0; end-- {
+		flag := true
+		for begin := 0; begin < end; begin++ {
+			if arr[begin] > arr[begin+1] {
+				arr[begin] ^= arr[begin+1]
+				arr[begin+1] ^= arr[begin]
+				arr[begin] ^= arr[begin+1]
+				flag = false
+			}
+		}
+		if flag {
+			break
+		}
+	}
+
+}
+func bubble5(arr []int) {
+	length := len(arr)
+	for end := length - 1; end > 0; {
+		softIndex := 0
+		for begin := 0; begin < end; begin++ {
+			if arr[begin] > arr[begin+1] {
+				arr[begin] ^= arr[begin+1]
+				arr[begin+1] ^= arr[begin]
+				arr[begin] ^= arr[begin+1]
+				softIndex = begin
+			}
+		}
+		end = softIndex
+	}
+}
+
+func bubble6(arr []int) {
+	length := len(arr)
+
+	for end := length - 1; end > 0; {
+		softIndex := 0
+		for begin := 0; begin < end; begin++ {
+			if arr[begin] > arr[begin+1] {
+				arr[begin] ^= arr[begin+1]
+				arr[begin+1] ^= arr[begin]
+				arr[begin] ^= arr[begin+1]
+				softIndex = begin
+			}
+			end = softIndex
+		}
+	}
+
 }
