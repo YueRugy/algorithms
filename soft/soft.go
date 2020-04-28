@@ -26,3 +26,7 @@ func (soft *Soft) Swap(index1, index2 int) {
 	soft.Array[index2] ^= soft.Array[index1]
 	soft.Array[index1] ^= soft.Array[index2]
 }
+func (soft *Soft) CompareNum(num1, num2 int) int {
+	soft.CompareCount++
+	return num1 - num2
+}
