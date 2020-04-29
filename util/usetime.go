@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func UseTime(message string, f func(arr []int), arg []int) {
+func UseTime1(message string, f func(arr []int), arg []int) {
 
 	before := time.Now()
 	f(arg)
@@ -14,3 +14,4 @@ func UseTime(message string, f func(arr []int), arg []int) {
 	fmt.Println(message + "  use  " + str)
 
 }
+

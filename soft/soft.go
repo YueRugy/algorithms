@@ -2,7 +2,7 @@ package soft
 
 import (
 	"fmt"
-	"reflect"
+	"strconv"
 )
 
 type Soft struct {
@@ -12,7 +12,8 @@ type Soft struct {
 }
 
 func (soft *Soft) String(time string) {
-	fmt.Println("struct  " + reflect.TypeOf(soft).String() + "  use " + time)
+	fmt.Println("use " + time + " compare= " + strconv.Itoa(soft.CompareCount) + "  swap= " +
+		strconv.Itoa(soft.SwapCount))
 }
 
 func (soft *Soft) Compare(index1, index2 int) int {
