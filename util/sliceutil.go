@@ -6,7 +6,7 @@ import (
 )
 
 func init() {
-	rand.New(rand.NewSource(time.Now().UnixNano()))
+	rand.Seed(time.Now().Unix())
 }
 func CreateSlice(num, limit int) []int {
 	if num <= 0 || limit <= 0 {
