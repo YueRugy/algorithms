@@ -1,10 +1,9 @@
 package merge
 
 import (
+	"github.com/algorithms/util"
 	"sort"
 	"testing"
-
-	"github.com/algorithms/util"
 )
 
 func TestMerge_SortTest(t *testing.T) {

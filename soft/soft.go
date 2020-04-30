@@ -22,7 +22,11 @@ func (soft *Soft) Compare(index1, index2 int) int {
 }
 
 func (soft *Soft) Swap(index1, index2 int) {
+
 	soft.SwapCount++
+	if index1 == index2 {
+		return
+	}
 	soft.Array[index1] ^= soft.Array[index2]
 	soft.Array[index2] ^= soft.Array[index1]
 	soft.Array[index1] ^= soft.Array[index2]
