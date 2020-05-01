@@ -1,13 +1,12 @@
 package main
 
-import (
-	"fmt"
-	"math/rand"
-	"time"
-)
+import "fmt"
 
 func main() {
-	rand.Seed(time.Now().Unix())
-	fmt.Println(rand.Intn(1))
-	
+
+	num1,num2:=11,11
+	num1^=num2
+	num2^=num1
+	num1^=num2
+	fmt.Println(num1,num2)
 }

@@ -19,6 +19,8 @@ func (i *Insertion) Sort() {
 		for cur := begin; cur > 0; cur-- {
 			if i.Compare(cur, cur-1) < 0 {
 				i.Swap(cur, cur-1)
+			} else {
+				break
 			}
 		}
 	}

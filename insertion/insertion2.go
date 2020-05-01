@@ -37,7 +37,7 @@ func (i *Insertion2) Index(index int) int {
 	begin, end, num := 0, index, i.Array[index]
 	for begin < end {
 		mid := (begin + end) >> 1
-		if i.CompareNum(num, i.Array[mid]) < 1 {
+		if i.CompareNum(num, i.Array[mid]) < 0 {
 			end = mid
 		} else {
 			begin = mid + 1
