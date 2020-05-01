@@ -1,12 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 func main() {
-
-	num1,num2:=11,11
-	num1^=num2
-	num2^=num1
-	num1^=num2
-	fmt.Println(num1,num2)
+	fmt.Println(math.Pow(3.0,3.0))
 }

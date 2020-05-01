@@ -1,7 +1,6 @@
 package shell
 
 import (
-	"fmt"
 	"sort"
 	"testing"
 
@@ -17,5 +16,4 @@ func TestShell_SortTest(t *testing.T) {
 	} else {
 		t.Error("failed")
 	}
-	fmt.Println(s.Array)
 }
