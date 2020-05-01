@@ -24,11 +24,16 @@ func NewShell(arr []int) *Shell {
 func (s *Shell) SortTest() {
 	before := time.Now()
 	//sli := shellStepSequence(len(s.Array))
+	//for _, step := range sli {
+	//	s.Sort(step)
+	//}
 	sli := robertStepSequence(len(s.Array))
-	fmt.Println(sli)
-	for _, step := range sli {
-		s.Sort(step)
+
+	for index := len(sli) - 1; index >= 0; index-- {
+		s.Sort(sli[index])
 	}
+
+	fmt.Println(sli)
 	after := time.Now()
 	s.String(after.Sub(before).String())
 }
