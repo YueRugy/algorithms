@@ -19,7 +19,7 @@ func TestCounting_SortTest(t *testing.T) {
 	//fmt.Println(counting.Array)
 }
 func TestCounting1_SortTest(t *testing.T) {
-	arr := util.CreateSlice(10000, 100000)
+	arr := util.CreateSlice(100000, 1000000)
 	counting1 := NewCounting1(arr)
 	counting1.SortTest()
 	if sort.IntsAreSorted(counting1.Array) {

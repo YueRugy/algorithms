@@ -41,7 +41,7 @@ func (c *Counting1) Sort() {
 		sli[c.Array[index]-min]++
 	}
 	for index := 1; index < len(sli); index++ {
-		sli[index] = sli[index] + sli[index-1]
+		sli[index] += sli[index-1]
 	}
 	newArray := make([]int, len(c.Array))
 	for index := len(c.Array) - 1; index >= 0; index-- {
