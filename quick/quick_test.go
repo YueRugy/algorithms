@@ -1,9 +1,10 @@
 package quick
 
 import (
-	"github.com/algorithms/util"
 	"sort"
 	"testing"
+
+	"github.com/algorithms/util"
 )
 
 func TestQuick_SortTest(t *testing.T) {
