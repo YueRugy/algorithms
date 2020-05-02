@@ -20,7 +20,7 @@ func TestUnionFind1_Union(t *testing.T) {
 }
 
 func TestUnionFind_S_Union(t *testing.T) {
-	uf:=NewUnionFind_S(max)
+	uf := NewUnionFind_S(max)
 	foo(uf)
 }
 
@@ -30,7 +30,17 @@ func TestUnionFind_R_Union(t *testing.T) {
 }
 
 func TestUnionFind_C_Union(t *testing.T) {
-	uf:=NewUnionFind_C(max)
+	uf := NewUnionFind_C(max)
+	foo(uf)
+}
+
+func TestNewUnionFind_R_PS(t *testing.T) {
+	uf := NewUnionFind_R_PS(max)
+	foo(uf)
+}
+
+func TestUnionFind_R_PH_Union(t *testing.T) {
+	uf := NewUnionFind_R_PH(max)
 	foo(uf)
 }
 
