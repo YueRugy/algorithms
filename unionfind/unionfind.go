@@ -15,7 +15,7 @@ func NewUnionFind(capacity int) *UnionFind {
 	return uf
 }
 
-func (u *UnionFind) Find(v int) int{
+func (u *UnionFind) Find(v int) int {
 	if u.checkV(v) {
 		return -1
 	}
@@ -24,7 +24,7 @@ func (u *UnionFind) Find(v int) int{
 }
 
 func (u *UnionFind) IsSame(v1, v2 int) bool {
-	if u.checkV(v1) || u.checkV(v2) {
+	if u.checkV(v1) || u.checkV(v2) || v1 == v2 {
 		return false
 	}
 	return u.Find(v1) == u.Find(v2)
@@ -47,8 +47,8 @@ func (u *UnionFind) Union(v1, v2 int) {
 		return
 	}
 	for index := 0; index < len(u.parents); index++ {
-		if u.parents[index]==p1{
-			u.parents[index]=p2
+		if u.parents[index] == p1 {
+			u.parents[index] = p2
 		}
 	}
 }
