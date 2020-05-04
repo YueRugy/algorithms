@@ -48,7 +48,6 @@ func (uf *UnionFind_R_PH) Find(v int) int {
 		uf.parents[v] = uf.parents[uf.parents[v]]
 		v = uf.parents[v]
 	}
-	return v
 }
 
 func (uf *UnionFind_R_PH) checkV(v int) bool {
