@@ -66,6 +66,7 @@ func (rbt *RedBlackTree) removeAfter(node, replaceNode *Node, dire int) {
 		rbt.black(replaceNode)
 		return
 	}
+	
 	pNode := node.parent
 	var siblingNode *Node
 	if dire == left {
