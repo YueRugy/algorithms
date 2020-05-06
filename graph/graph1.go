@@ -38,6 +38,9 @@ func (g *Graph1) add(from, to, weight int) {
 func (g *Graph1) AddEdge(from, to string, weight int) {
 	fromIndex := g.getVertexIndex(from)
 	toIndex := g.getVertexIndex(to)
+	if g.edges[fromIndex][toIndex] != 0 {
+		return
+	}
 	g.add(fromIndex, toIndex, weight)
 }
 
