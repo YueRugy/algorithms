@@ -110,10 +110,93 @@ func (g *Graph) AddVertex(value string) *vertex {
 	return g.vertices[value]
 }
 
+func (g *Graph) BFS(ver string) {
+	v, ok := g.vertices[ver]
+	if !ok {
+		return
+	}
+	queue := make([]*vertex, 0)
+	queue = append(queue, v)
+	set := make(map[*vertex]struct{})
+	set[v] = struct{}{}
+	for len(queue) != 0 {
+		vert := queue[0]
+		fmt.Println(vert.value)
+		queue = queue[1:]
+		if vert.outEdges != nil {
+			for _, value := range vert.outEdges.buckets {
+				if _, ok := set[value.to]; !ok {
+					set[value.to] = struct{}{}
+					queue = append(queue, value.to)
+				}
+			}
+		}
+	}
+}
+
+func (g *Graph) DFS(ver string) {
+	s := make(map[*vertex]struct{})
+	vert, ok := g.vertices[ver]
+	if ok {
+		g.dfs(vert, s)
+	}
+}
+
+func (g *Graph) dfs(vert *vertex, s map[*vertex]struct{}) {
+	s[vert] = struct{}{}
+	fmt.Println(vert.value)
+	if vert.outEdges == nil {
+		return
+	}
+	for _, value := range vert.outEdges.buckets {
+		if _, ok := s[value.to]; !ok {
+			s[value.to] = struct{}{}
+			g.dfs(value.to, s)
+		}
+	}
+}
+
 func (g *Graph) PrintVertices() {
 	for k, v := range g.vertices {
 		fmt.Print(k)
 		fmt.Printf("   %s", v.value)
 		fmt.Println()
 	}
+}
+
+func (g *Graph) TopologicalSort() []string {
+	mv := make(map[*vertex]int, len(g.vertices))
+	queue := make([]*vertex, 0)
+	for _, value := range g.vertices { // init mv
+		if value.inEdges == nil {
+			queue = append(queue, value)
+		} else {
+			mv[value] = len(value.inEdges.buckets)
+		}
+	}
+
+	if len(queue) == 0 {
+		return nil
+	}
+
+	var res = make([]string, len(g.vertices))
+	var index = 0
+	for len(queue) > 0 {
+		temp := queue[0]
+		res[index] = temp.value
+		index++
+		queue = queue[1:]
+		if temp.outEdges != nil {
+			for _, v := range temp.outEdges.buckets {
+				mv[v.to]--
+				if mv[v.to] == 0 {
+					queue = append(queue, v.to)
+				}
+			}
+		}
+	}
+	if len(res) != len(g.vertices) {
+		return nil
+	}
+	return res
 }
