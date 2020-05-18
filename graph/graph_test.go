@@ -1,7 +1,6 @@
 package graph
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -86,30 +85,19 @@ func TestGraph_DFS(t *testing.T) {
 	g.DFS("V1")
 }
 
-func TestGraph_TopologicalSort(t *testing.T) {
-	g := NewGraph()
-	foo1(g)
-	list:=g.TopologicalSort()
-	for _, str := range list {
-		fmt.Printf("%s ",str)
-	}
-}
-
-func foo1(g *Graph) {
-	var l = []Temp{
-		{from: "0", to: "2", weight: 0},
-		{from: "1", to: "0", weight: 0},
-		{from: "2", to: "5", weight: 0},
-		{from: "2", to: "6", weight: 0},
-		{from: "3", to: "1", weight: 0},
-		{from: "3", to: "5", weight: 0},
-		{from: "3", to: "7", weight: 0},
-		{from: "5", to: "7", weight: 0},
-		{from: "6", to: "4", weight: 0},
-		{from: "7", to: "6", weight: 0},
-	}
-	for _, v := range l {
-		g.AddEdge(v.from, v.to, v.weight)
+func foo1(g *Graph)  {
+	var l=[]Temp{
+		
+{from:"0", to:"2",weight:0,},
+{from:"1", to:"0",weight:0,},
+{from:"2", to:"5",weight:0,},
+{from:"2", to:"6",weight:0,},
+{from:"3", to:"1",weight:0,}, 
+{from:"3", to:"5",weight:0,},
+{from:"3", to:"7",weight:0,}
+{from:"5", to:"7",weight:0,},
+{from:"6", to:"4",weight:0,},
+{from:"7", to:"6",weight:0,},
 	}
 }
 
@@ -166,8 +154,8 @@ func foo(g *Graph) {
 			weight: 33,
 		},
 	}
-	for _, v := range l {
-		g.AddEdge(v.from, v.to, v.weight)
+	for _,v:=range l{
+		g.AddEdge(v.from,v.to,v.weight)
 	}
 }
 

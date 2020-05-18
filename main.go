@@ -1,8 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type HashSet struct {
 	array map[string]struct{}
@@ -20,13 +18,14 @@ func (hs *HashSet) Add(str string) {
 
 
 func main() {
+	fmt.Println(1/2)
 	//fmt.Println(math.Pow(3.0, 3.0))
-	hs:=NewHashSet()
-	hs.Add("a")
-	hs.Add("b")
-	fmt.Println(len(hs.array))
-	_,ok:=hs.array["a"]
-	fmt.Println(ok)
-	_,ok1:=hs.array["dd"]
-	fmt.Println(ok1)
+	//hs:=NewHashSet()
+	//hs.Add("a")
+	//hs.Add("b")
+	//fmt.Println(len(hs.array))
+	//_,ok:=hs.array["a"]
+	//fmt.Println(ok)
+	//_,ok1:=hs.array["dd"]
+	//fmt.Println(ok1)
 }

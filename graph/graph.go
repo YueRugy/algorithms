@@ -200,3 +200,45 @@ func (g *Graph) TopologicalSort() []string {
 	}
 	return res
 }
+
+func (g *Graph) MstPrim() map[*Edge]struct{} {
+	length := len(g.vertices)
+	if length == 0 {
+		return nil
+	}
+
+	es := make(map[*Edge]struct{}, length-1)
+	vs := make(map[*vertex]struct{}, length)
+	for _, value := range g.vertices {
+		vs[value] = struct{}{}
+		break
+	}
+
+	for len(vs) < length {
+		var wl *Edge = nil
+		for value := range vs {
+			if value.outEdges.buckets != nil {
+				for _, eg := range value.outEdges.buckets {
+					_, ok := vs[eg.from]
+					_, ok1 := vs[eg.to]
+					if ok && ok1 {
+						continue
+					}
+					if wl == nil {
+						wl = eg
+					} else {
+						if wl.weight > eg.weight {
+							wl = eg
+						}
+					}
+				}
+			}
+		}
+		if wl != nil {
+			vs[wl.to] = struct{}{}
+			es[wl] = struct{}{}
+		}
+	}
+
+	return es
+}
