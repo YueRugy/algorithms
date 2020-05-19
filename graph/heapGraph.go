@@ -20,7 +20,7 @@ func NewHeapGraph(collection []*Edge, compare func(e1, e2 *Edge) int) *HeapGraph
 		heap.buckets = make([]*Edge, len(collection)+len(collection)>>1)
 	}
 	copy(heap.buckets, collection)
-	heap.size=len(collection)
+	heap.size = len(collection)
 	heap.heapify()
 	return heap
 }
