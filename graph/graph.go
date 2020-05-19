@@ -202,6 +202,45 @@ func (g *Graph) TopologicalSort() []string {
 }
 
 func (g *Graph) MstPrim() map[*Edge]struct{} {
+	if len(g.vertices) == 1 || len(g.vertices) == 0 {
+		return nil
+	}
+	vertexSet := make(map[*vertex]struct{}, len(g.vertices))
+	res := make(map[*Edge]struct{})
+	var beginVertex *vertex
+	for _, value := range g.vertices {
+		beginVertex = value
+		break
+	}
+	if beginVertex == nil {
+		return nil
+	}
+	vertexSet[beginVertex] = struct{}{}
+	heap := NewHeapGraph(beginVertex.outEdges.Values(), func(e1, e2 *Edge) int {
+		return e1.weight - e2.weight
+	})
+	for heap.Size() > 0 && len(vertexSet) < len(g.vertices) {
+		edge := heap.Remove()
+		vertexSet[edge.to] = struct{}{}
+		if edge.to.outEdges != nil {
+			for _, v := range edge.to.outEdges.buckets {
+				if _, ok := res[v]; ok {
+					continue
+				}
+				_, ok := vertexSet[v.from]
+				_, ok1 := vertexSet[v.to]
+				if ok && ok1 {
+					continue
+				}
+				heap.Add(v)
+			}
+		}
+	}
+	return res
+	//heap:=NewHeapGraph(beginVertex.outEdges.buckets)
+}
+
+func (g *Graph) MstPrim1() map[*Edge]struct{} {
 	length := len(g.vertices)
 	if length == 0 {
 		return nil

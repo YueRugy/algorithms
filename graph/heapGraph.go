@@ -8,14 +8,19 @@ type HeapGraph struct {
 	compare func(e1, e2 *Edge) int
 }
 
-func NewHeapGraph(collection []int, compare func(e1, e2 *Edge) int) *HeapGraph {
+func NewHeapGraph(collection []*Edge, compare func(e1, e2 *Edge) int) *HeapGraph {
 	heap := &HeapGraph{compare: compare}
+	if collection == nil {
+		heap.buckets = make([]*Edge, defaultHeapCap)
+		return heap
+	}
 	if len(collection) <= defaultHeapCap {
 		heap.buckets = make([]*Edge, defaultHeapCap)
 	} else {
 		heap.buckets = make([]*Edge, len(collection)+len(collection)>>1)
 	}
-
+	copy(heap.buckets, collection)
+	heap.heapify()
 	return heap
 }
 
@@ -89,9 +94,8 @@ func (h *HeapGraph) siftUp() {
 
 func (h *HeapGraph) siftDown(si int) {
 	e := h.buckets[si]
-
 	for {
-		mi := h.findMaxOrMinIndex(si,e)
+		mi := h.findMaxOrMinIndex(si, e)
 		if mi < 0 {
 			break
 		}
@@ -101,7 +105,13 @@ func (h *HeapGraph) siftDown(si int) {
 	h.buckets[si] = e
 }
 
-func (h *HeapGraph) findMaxOrMinIndex(si int,e *Edge) int {
+func (h *HeapGraph) heapify() {
+	for index := h.size >> 1; index >= 0; index-- {
+		h.siftDown(index)
+	}
+}
+
+func (h *HeapGraph) findMaxOrMinIndex(si int, e *Edge) int {
 	left := si<<1 + 1
 	if left > h.size-1 {
 		return -1

@@ -18,7 +18,9 @@ func (hs *HashSet) Add(str string) {
 
 
 func main() {
-	fmt.Println(1/2)
+	m:=make(map[int]int,20)
+	fmt.Println(len(m))
+	//fmt.Println(1/2)
 	//fmt.Println(math.Pow(3.0, 3.0))
 	//hs:=NewHashSet()
 	//hs.Add("a")
