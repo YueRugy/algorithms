@@ -5,6 +5,14 @@ import (
 	"testing"
 )
 
+func TestGraph_MstPrim(t *testing.T) {
+	g := NewGraph()
+	//foo2(g)
+	foo3(g)
+	list := g.MstPrim()
+	showEdge(list)
+}
+
 func TestGraph_AddVertex(t *testing.T) {
 	g := NewGraph()
 	g.AddVertex("A0")
@@ -89,12 +97,12 @@ func TestGraph_DFS(t *testing.T) {
 func TestGraph_TopologicalSort(t *testing.T) {
 	g := NewGraph()
 	foo1(g)
-	list:=g.TopologicalSort()
-	if list==nil{
+	list := g.TopologicalSort()
+	if list == nil {
 		t.Log("不是有向无环图")
 	}
 	for _, str := range list {
-		fmt.Printf("%s ",str)
+		fmt.Printf("%s ", str)
 	}
 	t.Log("success")
 }
@@ -175,7 +183,57 @@ func foo(g *Graph) {
 	}
 }
 
+func foo3(g *Graph) {
+	var l = []Temp{
+		{from: "0", to: "2", weight: 2},
+		{from: "0", to: "4", weight: 7},
+		{from: "1", to: "2", weight: 3},
+		{from: "1", to: "5", weight: 1},
+		{from: "1", to: "6", weight: 7},
+		{from: "2", to: "4", weight: 4},
+		{from: "2", to: "5", weight: 3},
+		{from: "2", to: "6", weight: 6},
+		{from: "3", to: "7", weight: 9},
+		{from: "4", to: "6", weight: 8},
+		{from: "5", to: "6", weight: 4},
+		{from: "5", to: "7", weight: 5},
+	}
+
+	for _, v := range l {
+		g.AddEdge(v.from, v.to, v.weight)
+		g.AddEdge(v.to, v.from, v.weight)
+	}
+}
+
+func foo2(g *Graph) {
+	var l = []Temp{
+		{from: "A", to: "B", weight: 17},
+		{from: "A", to: "F", weight: 1},
+		{from: "A", to: "E", weight: 16},
+		{from: "B", to: "C", weight: 6},
+		{from: "B", to: "D", weight: 5},
+		{from: "B", to: "F", weight: 11},
+		{from: "C", to: "D", weight: 10},
+		{from: "D", to: "E", weight: 4},
+		{from: "D", to: "F", weight: 14},
+		{from: "E", to: "F", weight: 33},
+	}
+	for _, v := range l {
+		g.AddEdge(v.from, v.to, v.weight)
+		g.AddEdge(v.to, v.from, v.weight)
+	}
+}
+
 type Temp struct {
 	from, to string
 	weight   int
+}
+
+func showEdge(list map[*Edge]struct{}) {
+	if list == nil || len(list) == 0 {
+		return
+	}
+	for k := range list {
+		fmt.Printf("from=%s  to=%s  weight=%d \n", k.from.value, k.to.value, k.weight)
+	}
 }

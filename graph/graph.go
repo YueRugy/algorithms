@@ -221,7 +221,14 @@ func (g *Graph) MstPrim() map[*Edge]struct{} {
 	})
 	for heap.Size() > 0 && len(vertexSet) < len(g.vertices) {
 		edge := heap.Remove()
+
+		_, o := vertexSet[edge.from]
+		_, o1 := vertexSet[edge.to]
+		if o && o1 {
+			continue
+		}
 		vertexSet[edge.to] = struct{}{}
+		res[edge] = struct{}{}
 		if edge.to.outEdges != nil {
 			for _, v := range edge.to.outEdges.buckets {
 				if _, ok := res[v]; ok {
