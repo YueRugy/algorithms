@@ -160,6 +160,7 @@ func (g *Graph) dfs(vert *vertex, s map[*vertex]struct{}) {
 }
 
 func (g *Graph) PrintVertices() {
+
 	for k, v := range g.vertices {
 		fmt.Print(k)
 		fmt.Printf("   %s", v.value)
