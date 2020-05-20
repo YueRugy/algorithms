@@ -59,7 +59,9 @@ func (h *HeapGraph) Remove() *Edge {
 func (h *HeapGraph) Size() int {
 	return h.size
 }
-
+func (h *HeapGraph) IsEmpty() bool {
+	return h.size == 0
+}
 func (h *HeapGraph) ensureCapacity(newCapacity int) {
 	if newCapacity <= h.length() {
 		return

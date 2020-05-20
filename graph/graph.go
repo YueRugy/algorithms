@@ -5,11 +5,13 @@ import "fmt"
 type Graph struct {
 	size     int
 	vertices map[string]*vertex
+	edges    map[*Edge]struct{}
 }
 
 func NewGraph() *Graph {
 	return &Graph{
 		vertices: make(map[string]*vertex, 20),
+		edges:    make(map[*Edge]struct{}, defaultCap),
 	}
 }
 
@@ -53,6 +55,7 @@ func (g *Graph) AddEdge(from, to string, weight int) {
 	}
 	fv.outEdges.Add(k, e)
 	tv.inEdges.Add(k, e)
+	g.edges[e] = struct{}{}
 	g.size++
 }
 
@@ -197,6 +200,35 @@ func (g *Graph) TopologicalSort() []string {
 	}
 	if len(res) != len(g.vertices) {
 		return nil
+	}
+	return res
+}
+
+func (g *Graph) MstKruskal() map[*Edge]struct{} {
+	if len(g.vertices) <= 1 {
+		return nil
+	}
+	res := make(map[*Edge]struct{})
+	uf := NewUnionfindGraph()
+	for _, v := range g.vertices {
+		uf.Add(v)
+	}
+	collection := make([]*Edge, len(g.edges))
+	index := 0
+	for v := range g.edges {
+		collection[index] = v
+		index++
+	}
+	mh := NewHeapGraph(collection, func(e1, e2 *Edge) int {
+		return e1.weight - e2.weight
+	})
+	for !mh.IsEmpty() && len(res) < len(g.vertices)-1 {
+		e := mh.Remove()
+		if uf.IsSame(e.from, e.to) {
+			continue
+		}
+		res[e] = struct{}{}
+		uf.Union(e.from, e.to)
 	}
 	return res
 }

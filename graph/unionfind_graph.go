@@ -6,6 +6,12 @@ type UnionfindGraph struct {
 	ufg map[*vertex]*Node
 }
 
+func NewUnionfindGraph() *UnionfindGraph {
+	return &UnionfindGraph{
+		ufg: make(map[*vertex]*Node, defaultHeapCap),
+	}
+}
+
 type Node struct {
 	rank   int
 	value  *vertex
@@ -37,26 +43,25 @@ func (uf *UnionfindGraph) Find(v *vertex) *vertex {
 	return node.value
 }
 
-
-func (uf *UnionfindGraph) Union(v1,v2 *vertex) {
-	p1:=findNode(v1)
-	p2:=findNode(v2)
-	if p1||p2||reflect.DeepEqual(p1,p2){
+func (uf *UnionfindGraph) Union(v1, v2 *vertex) {
+	p1 := uf.findNode(v1)
+	p2 := uf.findNode(v2)
+	if p1 == nil || p2 == nil || reflect.DeepEqual(p1, p2) {
 		return
 	}
-	if p1.rank<p2.rank{
-		p1.parent=p2
-	}else if p1.rank>p2.rank{
-		p2.parent=p1
-	}else {
-		p1.parent=p2
+	if p1.rank < p2.rank {
+		p1.parent = p2
+	} else if p1.rank > p2.rank {
+		p2.parent = p1
+	} else {
+		p1.parent = p2
 		p2.rank++
 	}
 }
-func (uf *UnionfindGraph) IsSame(v1,v2 *vertex) bool{
-	p1:=findNode(v1)
-	p2:=findNode(v2)
-	return reflect.DeepEqual(p1,p2)
+func (uf *UnionfindGraph) IsSame(v1, v2 *vertex) bool {
+	p1 := uf.findNode(v1)
+	p2 := uf.findNode(v2)
+	return reflect.DeepEqual(p1, p2)
 }
 
 func (uf *UnionfindGraph) findNode(v *vertex) *Node {

@@ -9,7 +9,8 @@ func TestGraph_MstPrim(t *testing.T) {
 	g := NewGraph()
 	//foo2(g)
 	foo3(g)
-	list := g.MstPrim()
+	//list := g.MstPrim()
+	list := g.MstKruskal()
 	showEdge(list)
 }
 
