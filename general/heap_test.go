@@ -1,7 +1,7 @@
 package general
 
 import (
-	"container/heap"
+	"fmt"
 	"math/rand"
 	"testing"
 	"time"
@@ -31,14 +31,13 @@ func (is *IntSlice) Push(x interface{}) {
 	if v, ok := x.(int); ok {
 		*is = append(*is, v)
 	}
-	panic("unexpect type")
 }
 
 func (is *IntSlice) Pop() interface{} {
 	old := *is
 	n := old.Length()
 	x := old[n-1]
-	*is = old[:n]
+	*is = old[:n-1]
 	return x
 }
 
@@ -46,10 +45,10 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 func TestInit(t *testing.T) {
-	var array  = make(IntSlice, 10)
-	for index := 0; index < 10; index++ {
-		array = append(array, rand.Intn(100))
+	var array = &IntSlice{2, 7, 3, 8}
+	Init(array)
+	Push(array, 1)
+	for array.Length()>0{
+		fmt.Printf("%d ",Pop(array))
 	}
-	g
-
 }

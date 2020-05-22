@@ -45,7 +45,7 @@ func Remove(sort Sort, index int) interface{} {
 func up(sort Sort, i int) {
 	for {
 		parent := (i - 1) >> 1
-		if parent <= 0 || !sort.Less(parent, i) {
+		if parent < 0 || sort.Less(parent, i) {
 			break
 		}
 		sort.Swap(parent, i)
