@@ -1,10 +1,11 @@
 package general
 
 import (
+	"container/heap"
 	"math/rand"
 	"testing"
 	"time"
-	""
+	//"github.com/algorithms/general"
 )
 
 type IntSlice []int
@@ -49,7 +50,6 @@ func TestInit(t *testing.T) {
 	for index := 0; index < 10; index++ {
 		array = append(array, rand.Intn(100))
 	}
-	heap.Push()
-
+	g
 
 }
