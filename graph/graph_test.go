@@ -10,7 +10,7 @@ func TestGraph_Dijkstra(t *testing.T) {
 	foo4(g)
 	res := g.Dijkstra("A")
 	parse(res)
-	fmt.Println(res)
+	//fmt.Println(res)
 }
 
 func TestGraph_MstPrim(t *testing.T) {

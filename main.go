@@ -24,8 +24,14 @@ func main() {
 	for index := 0; index < 10; index++ {
 		list[index] = index
 	}
-	foo(list)
-	fmt.Println(list)
+
+	l1:=make([]int,4)
+	l1[0]=29003
+	copy(list,l1)
+	fmt.Println(l1)
+
+	//foo(list)
+	//fmt.Println(list)
 	//fmt.Println(1/2)
 	//fmt.Println(math.Pow(3.0, 3.0))
 	//hs:=NewHashSet()

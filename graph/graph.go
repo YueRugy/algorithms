@@ -243,7 +243,11 @@ func (g *Graph) Dijkstra(k string) map[*vertex]*ValueInfo {
 				}
 				info := dm[e.to]
 				if info == nil {
-					info = NewValueInfo(e.weight, e.to, make([]*Edge, 0))
+					info = NewValueInfo(e.weight+v.distance, e.to, make([]*Edge, 0))
+					for _, p := range v.paths {
+						info.paths = append(info.paths, p)
+					}
+					info.paths = append(info.paths, e)
 					general.Push(&heap, info)
 					dm[e.to] = info
 				} else {
@@ -253,7 +257,9 @@ func (g *Graph) Dijkstra(k string) map[*vertex]*ValueInfo {
 					} else {
 						info.distance = distance
 						info.paths = make([]*Edge, 0)
-						copy(info.paths, v.paths)
+						for _, p := range v.paths {
+							info.paths = append(info.paths, p)
+						}
 						info.paths = append(info.paths, e)
 						general.Init(&heap)
 					}
