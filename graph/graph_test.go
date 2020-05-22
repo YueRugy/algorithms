@@ -5,6 +5,14 @@ import (
 	"testing"
 )
 
+func TestGraph_Dijkstra(t *testing.T) {
+	g := NewGraph()
+	foo4(g)
+	res := g.Dijkstra("A")
+	parse(res)
+	fmt.Println(res)
+}
+
 func TestGraph_MstPrim(t *testing.T) {
 	g := NewGraph()
 	//foo2(g)
@@ -80,6 +88,7 @@ func TestGraph_BFS(t *testing.T) {
 	//g.AddEdge("V0", "V4", 6)
 	//g.BFS("V1")
 	foo(g)
+	//g.Dijkstra("A")
 	g.BFS("A")
 }
 
@@ -236,5 +245,31 @@ func showEdge(list map[*Edge]struct{}) {
 	}
 	for k := range list {
 		fmt.Printf("from=%s  to=%s  weight=%d \n", k.from.value, k.to.value, k.weight)
+	}
+}
+
+func foo4(g *Graph) {
+	var l = []Temp{
+		{from: "A", to: "B", weight: 10},
+		{from: "A", to: "D", weight: 30},
+		{from: "A", to: "E", weight: 100},
+		{from: "B", to: "C", weight: 50},
+		{from: "C", to: "E", weight: 10},
+		{from: "D", to: "C", weight: 20},
+		{from: "D", to: "E", weight: 60},
+	}
+
+	for _, v := range l {
+		g.AddEdge(v.from, v.to, v.weight)
+	}
+}
+
+func parse(result map[*vertex]*ValueInfo)  {
+	for _, v := range result {
+		fmt.Printf("终点是%s  最短路径=%d  ",v.key.value,v.distance)
+		for _, paths := range v.paths {
+			fmt.Printf("  %s---%s  ",paths.from.value,paths.to.value)
+		}
+		fmt.Println()
 	}
 }

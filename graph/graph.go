@@ -1,6 +1,10 @@
 package graph
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/algorithms/general"
+	"math"
+)
 
 type Graph struct {
 	size     int
@@ -29,6 +33,45 @@ type Edge struct {
 	weight int
 	from   *vertex
 	to     *vertex
+}
+
+type ValueInfo struct {
+	distance int
+	key      *vertex
+	paths    []*Edge
+}
+
+func NewValueInfo(distance int, key *vertex, paths []*Edge) *ValueInfo {
+	return &ValueInfo{distance: distance, key: key, paths: paths}
+}
+
+type ValueInfoSlice []*ValueInfo
+
+func (v ValueInfoSlice) Less(i, j int) bool {
+	return v[i].distance < v[j].distance
+}
+
+func (v ValueInfoSlice) Swap(i, j int) {
+	if i == j {
+		return
+	}
+	v[i], v[j] = v[j], v[i]
+}
+
+func (v ValueInfoSlice) Length() int {
+	return len(v)
+}
+
+func (v *ValueInfoSlice) Push(x interface{}) {
+	*v = append(*v, x.(*ValueInfo))
+}
+
+func (v *ValueInfoSlice) Pop() interface{} {
+	old := *v
+	n := old.Length()
+	value := old[n-1]
+	*v = old[:n-1]
+	return value
 }
 
 func (g *Graph) AddEdge(from, to string, weight int) {
@@ -166,6 +209,65 @@ func (g *Graph) PrintVertices() {
 		fmt.Printf("   %s", v.value)
 		fmt.Println()
 	}
+}
+
+func (g *Graph) Dijkstra(k string) map[*vertex]*ValueInfo {
+
+	ver, ok := g.vertices[k]
+	if len(g.vertices) < 2 || !ok {
+		return nil
+	}
+	heap := make(ValueInfoSlice, 0)
+	dm := make(map[*vertex]*ValueInfo)
+	if ver.outEdges != nil {
+		for _, edge := range ver.outEdges.buckets {
+			vi := NewValueInfo(edge.weight, edge.to, make([]*Edge, 0))
+			vi.paths = append(vi.paths, edge)
+			dm[edge.to] = vi
+			general.Push(&heap, vi)
+		}
+		//fmt.Println(heap)
+	} else {
+		return nil
+	}
+	selectPath := make(map[*vertex]*ValueInfo)
+	begin := NewValueInfo(math.MaxInt64, ver, make([]*Edge, 0))
+	selectPath[ver] = begin
+	for heap.Length() > 0 && len(selectPath) < len(g.vertices) {
+		v := general.Pop(&heap).(*ValueInfo)
+		selectPath[v.key] = v
+		if v.key.outEdges != nil {
+			for _, e := range v.key.outEdges.buckets {
+				if selectPath[e.to] != nil && selectPath[e.from] != nil {
+					continue
+				}
+				info := dm[e.to]
+				if info == nil {
+					info = NewValueInfo(e.weight, e.to, make([]*Edge, 0))
+					general.Push(&heap, info)
+					dm[e.to] = info
+				} else {
+					distance := v.distance + e.weight
+					if distance >= info.distance {
+						continue
+					} else {
+						info.distance = distance
+						info.paths = make([]*Edge, 0)
+						copy(info.paths, v.paths)
+						info.paths = append(info.paths, e)
+						general.Init(&heap)
+					}
+				}
+			}
+		}
+	}
+
+	delete(selectPath, ver)
+	return selectPath
+}
+
+func (g *Graph) relax() {
+
 }
 
 func (g *Graph) TopologicalSort() []string {
