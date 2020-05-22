@@ -5,7 +5,6 @@ import (
 	"testing"
 )
 
-type arr []*interface{}
 type Student struct {
 	id int
 }

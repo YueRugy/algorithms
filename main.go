@@ -1,6 +1,7 @@
 package main
 
-import "fmt"
+type ms []int
+
 
 type HashSet struct {
 	array map[string]struct{}
@@ -16,10 +17,10 @@ func (hs *HashSet) Add(str string) {
 	hs.array[str] = struct{}{}
 }
 
-
 func main() {
-	m:=make(map[int]int,20)
-	fmt.Println(len(m))
+
+
+
 	//fmt.Println(1/2)
 	//fmt.Println(math.Pow(3.0, 3.0))
 	//hs:=NewHashSet()
