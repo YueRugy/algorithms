@@ -233,7 +233,7 @@ func (g *Graph) Dijkstra(k string) map[*vertex]*ValueInfo {
 	selectPath := make(map[*vertex]*ValueInfo)
 	begin := NewValueInfo(math.MaxInt64, ver, make([]*Edge, 0))
 	selectPath[ver] = begin
-	for heap.Length() > 0 && len(selectPath) < len(g.vertices) {
+	for heap.Length() > 0 && len(selectPath) <= len(g.vertices) {
 		v := general.Pop(&heap).(*ValueInfo)
 		selectPath[v.key] = v
 		if v.key.outEdges != nil {
@@ -272,6 +272,50 @@ func (g *Graph) Dijkstra(k string) map[*vertex]*ValueInfo {
 	return selectPath
 }
 
+func (g *Graph) BellmanFord(key string) map[*vertex]*ValueInfo {
+	vert, ok := g.vertices[key]
+	if len(g.vertices) < 2 || !ok {
+		return nil
+	}
+
+	res := make(map[*vertex]*ValueInfo)
+	if vert.outEdges == nil {
+		return nil
+	}
+
+	for _, e := range vert.outEdges.buckets {
+		vi := NewValueInfo(e.weight, e.to, make([]*Edge, 0))
+		vi.paths = append(vi.paths, e)
+		res[e.to] = vi
+	}
+
+	vertexSize := len(g.vertices)
+	for index := 0; index < vertexSize; index++ {
+		for edge := range g.edges {
+			if res[edge.from] != nil {
+				distance := res[edge.from].distance + edge.weight
+				if res[edge.to] == nil {
+					vi := NewValueInfo(distance, edge.to, make([]*Edge, 0))
+					for _, ep := range res[edge.from].paths {
+						vi.paths = append(vi.paths, ep)
+					}
+					vi.paths = append(vi.paths, edge)
+					res[edge.to] = vi
+				} else {
+					if distance < res[edge.to].distance {
+						res[edge.to].distance = distance
+						res[edge.to].paths = make([]*Edge, 0)
+						for _, ep := range res[edge.from].paths {
+							res[edge.to].paths = append(res[edge.to].paths, ep)
+						}
+						res[edge.to].paths = append(res[edge.to].paths, edge)
+					}
+				}
+			}
+		}
+	}
+	return res
+}
 func (g *Graph) relax() {
 
 }

@@ -5,6 +5,16 @@ import (
 	"testing"
 )
 
+func TestGraph_BellmanFord(t *testing.T) {
+	g := NewGraph()
+	foo5(g)
+	parse(g.BellmanFord("A"))
+	//foo4(g)
+	//res := g.BellmanFord("A")
+	//parse(res)
+}
+
+
 func TestGraph_Dijkstra(t *testing.T) {
 	g := NewGraph()
 	foo4(g)
@@ -271,5 +281,17 @@ func parse(result map[*vertex]*ValueInfo)  {
 			fmt.Printf("  %s---%s  ",paths.from.value,paths.to.value)
 		}
 		fmt.Println()
+	}
+}
+
+func foo5(g *Graph)  {
+	var l=[]Temp{
+		{"A", "B", -1}, {"A", "C", 4},
+		{"B", "C", 3}, {"B", "D", 2}, {"B", "E", 2},
+		{"D", "B", 1}, {"D", "C", 5},
+		{"E", "D", -3},
+	}
+	for _, v := range l {
+		g.AddEdge(v.from, v.to, v.weight)
 	}
 }
