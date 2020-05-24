@@ -292,32 +292,43 @@ func (g *Graph) BellmanFord(key string) map[*vertex]*ValueInfo {
 	vertexSize := len(g.vertices)
 	for index := 0; index < vertexSize; index++ {
 		for edge := range g.edges {
-			if res[edge.from] != nil {
-				distance := res[edge.from].distance + edge.weight
-				if res[edge.to] == nil {
-					vi := NewValueInfo(distance, edge.to, make([]*Edge, 0))
-					for _, ep := range res[edge.from].paths {
-						vi.paths = append(vi.paths, ep)
-					}
-					vi.paths = append(vi.paths, edge)
-					res[edge.to] = vi
-				} else {
-					if distance < res[edge.to].distance {
-						res[edge.to].distance = distance
-						res[edge.to].paths = make([]*Edge, 0)
-						for _, ep := range res[edge.from].paths {
-							res[edge.to].paths = append(res[edge.to].paths, ep)
-						}
-						res[edge.to].paths = append(res[edge.to].paths, edge)
-					}
+			g.relax(res, edge)
+		}
+	}
+
+	for edge := range g.edges {
+		if g.relax(res,edge){
+			fmt.Println("有负权环")
+		}
+	}
+
+	return res
+}
+
+func (g *Graph) relax(res map[*vertex]*ValueInfo, edge *Edge) bool {
+	if res[edge.from] != nil {
+		distance := res[edge.from].distance + edge.weight
+		if res[edge.to] == nil {
+			vi := NewValueInfo(distance, edge.to, make([]*Edge, 0))
+			for _, ep := range res[edge.from].paths {
+				vi.paths = append(vi.paths, ep)
+			}
+			vi.paths = append(vi.paths, edge)
+			res[edge.to] = vi
+			return true
+		} else {
+			if distance < res[edge.to].distance {
+				res[edge.to].distance = distance
+				res[edge.to].paths = make([]*Edge, 0)
+				for _, ep := range res[edge.from].paths {
+					res[edge.to].paths = append(res[edge.to].paths, ep)
 				}
+				res[edge.to].paths = append(res[edge.to].paths, edge)
+				return true
 			}
 		}
 	}
-	return res
-}
-func (g *Graph) relax() {
-
+	return false
 }
 
 func (g *Graph) TopologicalSort() []string {

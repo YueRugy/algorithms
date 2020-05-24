@@ -7,13 +7,12 @@ import (
 
 func TestGraph_BellmanFord(t *testing.T) {
 	g := NewGraph()
-	foo5(g)
-	parse(g.BellmanFord("A"))
+	foo6(g)
+	parse(g.BellmanFord("0"))
 	//foo4(g)
 	//res := g.BellmanFord("A")
 	//parse(res)
 }
-
 
 func TestGraph_Dijkstra(t *testing.T) {
 	g := NewGraph()
@@ -274,22 +273,33 @@ func foo4(g *Graph) {
 	}
 }
 
-func parse(result map[*vertex]*ValueInfo)  {
+func parse(result map[*vertex]*ValueInfo) {
 	for _, v := range result {
-		fmt.Printf("终点是%s  最短路径=%d  ",v.key.value,v.distance)
+		fmt.Printf("终点是%s  最短路径=%d  ", v.key.value, v.distance)
 		for _, paths := range v.paths {
-			fmt.Printf("  %s---%s  ",paths.from.value,paths.to.value)
+			fmt.Printf("  %s---%s  ", paths.from.value, paths.to.value)
 		}
 		fmt.Println()
 	}
 }
 
-func foo5(g *Graph)  {
-	var l=[]Temp{
+func foo5(g *Graph) {
+	var l = []Temp{
 		{"A", "B", -1}, {"A", "C", 4},
 		{"B", "C", 3}, {"B", "D", 2}, {"B", "E", 2},
 		{"D", "B", 1}, {"D", "C", 5},
 		{"E", "D", -3},
+	}
+	for _, v := range l {
+		g.AddEdge(v.from, v.to, v.weight)
+	}
+}
+
+func foo6(g *Graph) {
+	var l = []Temp{
+		{from: "0", to: "1", weight: 1},
+		{from: "1", to: "2", weight: 7},
+		{from: "1", to: "0", weight: -2},
 	}
 	for _, v := range l {
 		g.AddEdge(v.from, v.to, v.weight)
