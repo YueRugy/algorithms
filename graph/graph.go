@@ -299,6 +299,7 @@ func (g *Graph) BellmanFord(key string) map[*vertex]*ValueInfo {
 	for edge := range g.edges {
 		if g.relax(res,edge){
 			fmt.Println("有负权环")
+			return nil
 		}
 	}
 
