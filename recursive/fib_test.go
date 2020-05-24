@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-const number = 30
+const number = 45
 
 func TestFib(t *testing.T) {
 	fmt.Println(fib(6))
@@ -26,6 +26,7 @@ func TestFibTime(t *testing.T) {
 	timePrint(fib1, number)
 	timePrint(fib2, number)
 	timePrint(fib3,number)
+	timePrint(fib4,number)
 }
 
 func TestOneNumber(t *testing.T)  {

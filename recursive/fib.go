@@ -39,9 +39,22 @@ func fib3(n int) int {
 	}
 
 	for index := 3; index <= n; index++ { //index &(len(rollArray-1）len(rollArray)是2的n次幂时才能使用
-		rollArray[index&1]=rollArray[(index-1)&1]+rollArray[(index-2)&1]
+		rollArray[index&1] = rollArray[(index-1)&1] + rollArray[(index-2)&1]
 	}
 	return rollArray[n&1]
+}
+
+func fib4(n int) int {
+	if n <= 2 {
+		return 1
+	}
+
+	first, second := 1, 1
+	for i := 3; i <=n ; i++ {
+		second=first+second
+		first=second-first
+	}
+	return second
 }
 
 func fibArray(n int, array *[]int) int {
@@ -52,9 +65,9 @@ func fibArray(n int, array *[]int) int {
 }
 
 func oneNumber(array *[]int) int {
-	res:=0
+	res := 0
 	for _, number := range *array {
-		res^=number
+		res ^= number
 	}
 	return res
 }
